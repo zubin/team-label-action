@@ -151,7 +151,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getTeamSlugsForAuthor = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const getTeamSlugsForAuthor = (octokit, org, username, ignoreSlugs = []) => __awaiter(void 0, void 0, void 0, function* () {
+const getTeamSlugsForAuthor = (octokit, org, username, ignoreSlugs = [], onlySlugs = []) => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const { data: allTeams } = yield octokit.rest.teams.list({
         org,
@@ -161,6 +161,9 @@ const getTeamSlugsForAuthor = (octokit, org, username, ignoreSlugs = []) => __aw
         for (var allTeams_1 = __asyncValues(allTeams), allTeams_1_1; allTeams_1_1 = yield allTeams_1.next(), !allTeams_1_1.done;) {
             const { slug } = allTeams_1_1.value;
             if (ignoreSlugs.includes(slug)) {
+                continue;
+            }
+            if (onlySlugs.length > 0 && !onlySlugs.includes(slug)) {
                 continue;
             }
             try {

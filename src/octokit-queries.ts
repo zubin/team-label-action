@@ -6,6 +6,7 @@ export const getTeamSlugsForAuthor = async (
   org: string,
   username: string,
   ignoreSlugs: string[] = [],
+  onlySlugs: string[] = [],
 ): Promise<string[]> => {
   const { data: allTeams } = await octokit.rest.teams.list({
     org,
@@ -15,6 +16,10 @@ export const getTeamSlugsForAuthor = async (
 
   for await (const { slug } of allTeams) {
     if (ignoreSlugs.includes(slug)) {
+      continue;
+    }
+
+    if (onlySlugs.length > 0 && !onlySlugs.includes(slug)) {
       continue;
     }
 
